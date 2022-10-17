@@ -34,14 +34,20 @@
         </dependency>
 
         <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-media</artifactId>
-            <scope>provided</scope>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-extras-filepicker</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-extras-filepicker</artifactId>
+            <artifactId>webfx-kit-util</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-lib-demofx</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -54,6 +60,12 @@
         <dependency>
             <groupId>dev.webfx</groupId>
             <artifactId>webfx-platform-file</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-platform-uischeduler</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 

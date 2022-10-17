@@ -3,6 +3,7 @@
 
     <exported-packages>
         <source-packages/>
+        <resource-package>dev.webfx.demo.files</resource-package>
     </exported-packages>
 
     <dependencies>
