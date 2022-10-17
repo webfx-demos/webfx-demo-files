@@ -28,6 +28,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.TouchPoint;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -148,8 +149,7 @@ public class FilesView {
                 fileGridTile = new BorderPane(createFileIcon());
                 BorderPane.setAlignment(fileGridTile.getCenter(), Pos.CENTER_LEFT);
                 BorderPane.setMargin(fileGridTile.getCenter(), new Insets(10));
-                fileGridTile.setCursor(Cursor.HAND);
-                fileGridTile.setOnMouseClicked(e -> openFileAction());
+                armTileNode(fileGridTile);
             }
             return fileGridTile;
         }
@@ -157,18 +157,24 @@ public class FilesView {
         private Pane fileListTile;
         private Node getFileListTile() {
             if (fileListTile == null) {
-                BorderPane borderPane = new BorderPane(new VBox(10,
+                BorderPane sizeTextBorderPane;
+                BorderPane borderPane = new BorderPane(new VBox(15,
                         createWhiteText(file.getName(), 28),
-                        createWhiteText(readableFileSize(file.length()), 12),
-                        createWhiteText(Dates.format(LocalDateTime.ofEpochSecond(file.lastModified() / 1000, 0, LOCAL_ZONE_OFFSET), "dd/MM/yyyy HH:mm:ss"), 12)
+                        new HBox(10,
+                                sizeTextBorderPane = new BorderPane(createGrayText(readableFileSize(file.length()), 20)),
+                                createGrayText(Dates.format(LocalDateTime.ofEpochSecond(file.lastModified() / 1000, 0, LOCAL_ZONE_OFFSET), "dd/MM/yyyy HH:mm:ss"), 20)
+                        )
                 ));
+                sizeTextBorderPane.setMinWidth(100);
                 borderPane.setMinWidth(0);
+                BorderPane.setAlignment(sizeTextBorderPane.getCenter(), Pos.CENTER_LEFT);
                 BorderPane.setAlignment(borderPane.getCenter(), Pos.CENTER_LEFT);
-                BorderPane.setMargin(borderPane.getCenter(), new Insets(10));
+                BorderPane.setMargin(borderPane.getCenter(), new Insets(20, 0, 0, 5));
                 borderPane.setLeft(createFileIcon());
                 BorderPane.setAlignment(borderPane.getLeft(), Pos.CENTER);
+                BorderPane.setMargin(borderPane.getLeft(), new Insets(5));
                 setBackgroundFill(borderPane, ROOT_BACKGROUND_COLOR_LIGHTER);
-                borderPane.setOnMouseClicked(e -> runTileClickAction());
+                armTileNode(borderPane);
                 Rectangle clip = new Rectangle();
                 clip.widthProperty().bind(borderPane.widthProperty());
                 clip.heightProperty().bind(borderPane.heightProperty());
@@ -181,8 +187,15 @@ public class FilesView {
             return fileListTile;
         }
 
-        private void runTileClickAction() {
-            openFileAction();
+        private TouchPoint pressedTouchPoint;
+        private void armTileNode(Node tileNode) {
+            tileNode.setCursor(Cursor.HAND);
+            tileNode.setOnMouseClicked(e -> openFileAction());
+            tileNode.setOnTouchPressed(e -> pressedTouchPoint = e.getTouchPoint());
+            tileNode.setOnTouchReleased(e -> {
+                if (Math.abs(e.getTouchPoint().getSceneY() - pressedTouchPoint.getSceneY()) < 20)
+                    openFileAction();
+            });
         }
 
         private void openFileAction() {
@@ -199,12 +212,19 @@ public class FilesView {
             FileReader.create()
                     .readAsText(file)
                     .onSuccess(textArea::setText);
+            textArea.setFont(Font.font(18)); // Ignored in the browser for any reason
+            textArea.setPadding(new Insets(10));
             BorderPane borderPane = new BorderPane(textArea);
+            BorderPane.setMargin(textArea, new Insets(10));
             Button closeButton = new Button("Close");
+            setBackgroundFill(closeButton, Color.RED);
+            closeButton.setTextFill(Color.WHITE);
+            closeButton.setFont(Font.font(18));
+            closeButton.setPadding(new Insets(10));
             closeButton.setOnAction(e -> closeFileView());
-            HBox buttonBar = new HBox(10, closeButton);
+            HBox buttonBar = new HBox(closeButton);
             buttonBar.setAlignment(Pos.CENTER);
-            buttonBar.setPadding(new Insets(10));
+            buttonBar.setPadding(new Insets(0, 0, 20, 0));
             borderPane.setBottom(buttonBar);
             openFileView(borderPane, false, null);
         }

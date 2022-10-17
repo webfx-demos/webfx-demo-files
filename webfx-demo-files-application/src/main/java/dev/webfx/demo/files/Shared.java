@@ -30,8 +30,16 @@ final class Shared {
     }
 
     static Text createWhiteText(String content, double size) {
+        return createColorText(content, size, Color.WHITE);
+    }
+
+    static Text createGrayText(String content, double size) {
+        return createColorText(content, size, Color.GRAY);
+    }
+
+    static Text createColorText(String content, double size, Color textColor) {
         Text text = new Text(content);
-        text.setFill(Color.WHITE);
+        text.setFill(textColor);
         text.setFont(Font.font(size));
         return text;
     }

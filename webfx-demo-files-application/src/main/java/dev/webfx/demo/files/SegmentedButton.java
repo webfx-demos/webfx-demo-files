@@ -7,6 +7,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
 
 import java.util.Arrays;
 
@@ -28,10 +29,12 @@ final class SegmentedButton<T> {
         }
     };
 
+    @SafeVarargs
     public SegmentedButton(ButtonSegment<T>... buttonSegments) {
         this(null, buttonSegments);
     }
 
+    @SafeVarargs
     public SegmentedButton(T initialState, ButtonSegment<T>... buttonSegments) {
         this.buttonSegments = buttonSegments;
         frames = Arrays.stream(buttonSegments).map(this::createSegmentFrame).toArray(BorderPane[]::new);
@@ -57,7 +60,9 @@ final class SegmentedButton<T> {
     }
 
     private BorderPane createSegmentFrame(ButtonSegment<T> buttonSegment) {
-        BorderPane frame = new BorderPane(buttonSegment.getGraphic());
+        SVGPath graphic = buttonSegment.getGraphic();
+        graphic.setMouseTransparent(true);
+        BorderPane frame = new BorderPane(graphic);
         frame.setPrefWidth(segmentWidth);
         frame.setMaxHeight(height);
         frame.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, segmentRadii(buttonSegment), null, null)));
