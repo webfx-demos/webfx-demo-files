@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 final class Shared {
 
     final static Color ROOT_BACKGROUND_COLOR = Color.web("#0D1117");
+    final static Color ROOT_BACKGROUND_COLOR_LIGHTER = Color.web("#161B22");
     final static DropShadow CYAN_DROP_SHADOW = new DropShadow(5, 0, 5, Color.CYAN);
 
     /*******************************************************************************************************************

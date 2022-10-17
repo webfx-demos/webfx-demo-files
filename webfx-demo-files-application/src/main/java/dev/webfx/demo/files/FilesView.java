@@ -69,6 +69,7 @@ public class FilesView {
     public FilesView() {
         ObservableLists.bindConverted(fileTilesListView.getChildren(), fileInfos, FilesView.FileInfo::getFileListTile);
         ObservableLists.bindConverted(fileTilesGridView.getChildren(), fileInfos, FilesView.FileInfo::getFileGridTile);
+        showFileTilesListViewProperty.set(true);
     }
 
     public Node getView() {
@@ -128,7 +129,7 @@ public class FilesView {
     }
 
     private ObservableList<Node> getRootChildren() {
-        return ((Pane) mainContainer.getParent()).getChildren();
+        return ((Pane) mainContainer.getParent().getParent()).getChildren();
     }
 
     class FileInfo {
@@ -166,7 +167,7 @@ public class FilesView {
                 BorderPane.setMargin(borderPane.getCenter(), new Insets(10));
                 borderPane.setLeft(createFileIcon());
                 BorderPane.setAlignment(borderPane.getLeft(), Pos.CENTER);
-                setBackgroundFill(borderPane, Color.web("#161B22"));
+                setBackgroundFill(borderPane, ROOT_BACKGROUND_COLOR_LIGHTER);
                 borderPane.setOnMouseClicked(e -> runTileClickAction());
                 Rectangle clip = new Rectangle();
                 clip.widthProperty().bind(borderPane.widthProperty());
