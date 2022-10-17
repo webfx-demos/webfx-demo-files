@@ -9,6 +9,7 @@
     <dependencies>
         <used-by-source-modules>
             <undetected-module>webfx-platform-async</undetected-module>
+            <undetected-module>webfx-kit-javafxmedia-emul</undetected-module>
         </used-by-source-modules>
     </dependencies>
 

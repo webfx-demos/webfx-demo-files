@@ -10,6 +10,7 @@ module webfx.demo.files.application.openjfx {
     requires webfx.platform.boot.java;
     requires webfx.platform.console.java;
     requires webfx.platform.file.java;
+    requires webfx.platform.resource.java;
     requires webfx.platform.scheduler.java;
     requires webfx.platform.shutdown.java;
 

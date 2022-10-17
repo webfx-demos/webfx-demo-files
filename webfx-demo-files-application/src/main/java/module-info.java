@@ -7,6 +7,7 @@ module webfx.demo.files.application {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
+    requires javafx.media;
     requires webfx.extras.filepicker;
     requires webfx.kit.util;
     requires webfx.lib.demofx;

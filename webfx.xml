@@ -13,6 +13,7 @@
 
     <required-libraries>
         <webfx-library artifact="dev.webfx:webfx-extras-private:0.1.0-SNAPSHOT"/>
+        <webfx-library artifact="dev.webfx:webfx-lib-demofx:0.1.0-SNAPSHOT"/>
     </required-libraries>
 
 </project>

@@ -83,12 +83,16 @@
     <inherits name="org.gwtproject.nio.GwtNioSupport"/>
     <!--==========================< webfx-demo-files-application >==========================-->
     <source path="dev/webfx/demo/files"/>
+    <resource path="dev/webfx/demo/files"/>
+    <public includes="dev/webfx/demo/files/" path=""/>
     <!--============================< webfx-extras-filepicker >=============================-->
     <source path="dev/webfx/extras/filepicker"/>
     <source path="dev/webfx/extras/filepicker/spi"/>
     <source path="dev/webfx/extras/filepicker/spi/impl"/>
     <!--==========================< webfx-extras-filepicker-gwt >===========================-->
     <source path="dev/webfx/extras/filepicker/spi/impl/gwt"/>
+    <!--============================< webfx-extras-imagestore >=============================-->
+    <source path="dev/webfx/extras/imagestore"/>
     <!--=================================< webfx-kit-gwt >==================================-->
     <source path="dev/webfx/kit/launcher/spi/impl/gwt"/>
     <source path="dev/webfx/kit/mapper/spi/impl/gwt"/>
@@ -120,6 +124,25 @@
     <!--=================================< webfx-kit-util >=================================-->
     <source path="dev/webfx/kit/util/properties"/>
     <source path="dev/webfx/kit/util/properties/conversion"/>
+    <!--================================< webfx-lib-demofx >================================-->
+    <source path="com/chrisnewland/demofx"/>
+    <source path="com/chrisnewland/demofx/effect"/>
+    <source path="com/chrisnewland/demofx/effect/addon"/>
+    <source path="com/chrisnewland/demofx/effect/effectfactory"/>
+    <source path="com/chrisnewland/demofx/effect/fake3d"/>
+    <source path="com/chrisnewland/demofx/effect/fractal"/>
+    <source path="com/chrisnewland/demofx/effect/pixel"/>
+    <source path="com/chrisnewland/demofx/effect/shape"/>
+    <source path="com/chrisnewland/demofx/effect/spectral"/>
+    <source path="com/chrisnewland/demofx/effect/sprite"/>
+    <source path="com/chrisnewland/demofx/effect/text"/>
+    <source path="com/chrisnewland/demofx/util"/>
+    <resource path="com/chrisnewland/demofx/images"/>
+    <public includes="com/chrisnewland/demofx/images/" path=""/>
+    <resource path="com/chrisnewland/demofx/images/letters"/>
+    <public includes="com/chrisnewland/demofx/images/letters/" path=""/>
+    <resource path="com/chrisnewland/demofx/text"/>
+    <public includes="com/chrisnewland/demofx/text/" path=""/>
     <!--==============================< webfx-platform-async >==============================-->
     <source path="dev/webfx/platform/async"/>
     <source path="dev/webfx/platform/async/impl"/>
