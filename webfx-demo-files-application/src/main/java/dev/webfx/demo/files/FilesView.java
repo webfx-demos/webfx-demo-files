@@ -339,15 +339,11 @@ public class FilesView {
         private void openNextSameTypeFile(boolean forward) {
             int fileIndex = fileInfos.indexOf(this);
             while (true) {
-                if (forward) {
-                    if (++fileIndex >= fileInfos.size()) {
-                        if (fileType == FileType.AUDIO) // No loop to top for audio files
-                            return;
-                        fileIndex = 0;
-                    }
-               } else {
-                    if (--fileIndex < 0)
-                        fileIndex = fileInfos.size() - 1;
+                fileIndex += forward ? 1 : -1; // Going to possible next file
+                if (fileIndex < 0 || fileIndex >= fileInfos.size()) { // Loop management
+                    if (fileType == FileType.AUDIO) // No loop for audio files
+                        return;
+                    fileIndex = fileIndex < 0 ? fileInfos.size() - 1 : 0;
                 }
                 FileInfo fileInfo = fileInfos.get(fileIndex);
                 if (fileType == fileInfo.fileType) {
