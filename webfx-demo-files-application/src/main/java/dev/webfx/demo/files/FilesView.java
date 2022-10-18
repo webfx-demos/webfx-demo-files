@@ -29,6 +29,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchPoint;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -42,6 +43,8 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static dev.webfx.demo.files.Shared.*;
@@ -52,7 +55,8 @@ import static dev.webfx.demo.files.Shared.*;
 public class FilesView {
 
     private final static ZoneOffset LOCAL_ZONE_OFFSET = ZoneId.systemDefault().getRules().getOffset(Instant.now());
-    private final static Image quaver2 = new Image("dev/webfx/demo/files/quaver2.png", true);
+    private final static Image AUDIO_FILE_IMAGE = new Image("dev/webfx/demo/files/quaver2.png", true);
+    private static Cursor INITIAL_NAVIGATION_CURSOR = Cursor.HAND;
 
     private final BorderPane mainContainer = new BorderPane();
     private final VBox fileTilesListView = new VBox();
@@ -155,7 +159,6 @@ public class FilesView {
                 borderPane.setClip(clip);
                 fileListTile = new BorderPane(borderPane); // Embedding it so the clip doesn't prevent the shadow effect
                 fileListTile.setEffect(CYAN_DROP_SHADOW);
-                fileListTile.setCursor(Cursor.HAND);
                 VBox.setMargin(fileListTile, new Insets(5, 15, 10, 5));
             }
             return fileListTile;
@@ -233,26 +236,38 @@ public class FilesView {
 
         private void openFileFullView(Node fileFullView, boolean closeOnMouseClick, Runnable onClose) {
             openTime = System.currentTimeMillis();
+            Consumer<KeyCode> leftRightKeyNavigationHandler = keyCode -> {
+                if (keyCode == KeyCode.LEFT || keyCode == KeyCode.RIGHT)
+                    openNextSameTypeFile(keyCode == KeyCode.RIGHT);
+            };
+            // We actually enable navigation (keyboard + mouse) only for image and audio files
+            boolean navigationEnabled = fileType == FileType.IMAGE || fileType == FileType.AUDIO;
+            if (navigationEnabled) {
+                fileFullView.setOnSwipeLeft( e -> openNextSameTypeFile(true));  // Swiping right to Left
+                fileFullView.setOnSwipeRight(e -> openNextSameTypeFile(false)); // Swiping left to Right
+                mainContainer.requestFocus(); // Required to capture the key events
+                mainContainer.getScene().setOnKeyPressed(e -> leftRightKeyNavigationHandler.accept(e.getCode()));
+            } else
+                INITIAL_NAVIGATION_CURSOR = Cursor.HAND;
             BorderPane borderPane = new BorderPane(fileFullView);
+            // Mouse position x < 0.25% will be equivalent to left key and x > 75% equivalent to right key
+            Function<MouseEvent, KeyCode> mousePositionToEquivalentKeyCode = e -> e.getX() < 0.25 * borderPane.getWidth() ? KeyCode.LEFT : e.getX() > 0.75 * borderPane.getWidth() ? KeyCode.RIGHT : null;
             setBackgroundFill(borderPane, ROOT_BACKGROUND_COLOR);
-            borderPane.setCursor(Cursor.HAND);
             borderPane.getProperties().put("onClose", onClose);
-            if (closeOnMouseClick)
-                borderPane.setOnMouseClicked(e -> closeFileFullView());
-            if (fileType == FileType.IMAGE || fileType == FileType.AUDIO) {
-                fileFullView.setOnSwipeLeft( e -> openNextSameTypeFile(true));  // Right to Left
-                fileFullView.setOnSwipeRight(e -> openNextSameTypeFile(false)); // Left to Right
-                mainContainer.requestFocus();
-                mainContainer.getScene().setOnKeyPressed(e -> {
-                    switch (e.getCode()) {
-                        case LEFT:
-                        case RIGHT:
-                            openNextSameTypeFile(e.getCode() == KeyCode.RIGHT);
-                            e.consume();
-                            break;
-                    }
+            borderPane.setOnMouseClicked(e -> {
+                KeyCode equivalentKeyCode = mousePositionToEquivalentKeyCode.apply(e);
+                if (equivalentKeyCode != null && navigationEnabled) // if user clicked on left or right side and navigation is enabled
+                    leftRightKeyNavigationHandler.accept(equivalentKeyCode); // we execute that navigation
+                else if (closeOnMouseClick) // otherwise (center click or no navigation)
+                    closeFileFullView(); // we close the view
+            });
+            // Setting a different cursor depending on mouse position
+            borderPane.setCursor(navigationEnabled ? INITIAL_NAVIGATION_CURSOR : Cursor.HAND); // if navigation enabled, we reuse the same cursor as the previous image
+            if (navigationEnabled)
+                borderPane.setOnMouseMoved(e -> {
+                    KeyCode equivalentKeyCode = mousePositionToEquivalentKeyCode.apply(e);
+                    borderPane.setCursor(INITIAL_NAVIGATION_CURSOR = equivalentKeyCode == KeyCode.LEFT ? Cursor.W_RESIZE : equivalentKeyCode == KeyCode.RIGHT ? Cursor.E_RESIZE : Cursor.HAND);
                 });
-            }
             getRootChildren().add(borderPane);
         }
 
@@ -351,7 +366,7 @@ public class FilesView {
             gc.save();
             boolean mediaFile = fileType == FileType.AUDIO || fileType == FileType.VIDEO;
             if (mediaFile)
-                gc.drawImage(quaver2, 50 - quaver2.getWidth() / 2, 50 - quaver2.getHeight() / 2);
+                gc.drawImage(AUDIO_FILE_IMAGE, 50 - AUDIO_FILE_IMAGE.getWidth() / 2, 50 - AUDIO_FILE_IMAGE.getHeight() / 2);
             else {
                 String name = file.getName();
                 int p = name.lastIndexOf('.');
@@ -392,7 +407,7 @@ public class FilesView {
                 gc.setEffect(new DropShadow(5, 0, 5, Color.GRAY));
                 gc.setFill(Color.WHITE);
                 if (mediaFile)
-                    gc.drawImage(quaver2, 50 - quaver2.getWidth() / 2, 50 - quaver2.getHeight() / 2);
+                    gc.drawImage(AUDIO_FILE_IMAGE, 50 - AUDIO_FILE_IMAGE.getWidth() / 2, 50 - AUDIO_FILE_IMAGE.getHeight() / 2);
                 else if (extension != null) {
                     gc.fillRect(25, 20, 50, 5); // line 1
                     gc.fillRect(25, 30, 50, 5); // line 2
