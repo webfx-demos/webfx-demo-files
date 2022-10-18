@@ -213,7 +213,7 @@ public class FilesView {
         private boolean userRequestedStop;
         private void openAudioFile() {
             DemoConfig demoConfig = new DemoConfig(mainContainer.getWidth(), mainContainer.getHeight());
-            demoConfig.setAudioFilename(file.getURLPath());
+            demoConfig.setAudioFilename(file.getObjectURL());
             DemoFX equaliserDemoFX = new DemoFX(demoConfig, (IEffectFactory) config -> Collections.listOf(new Equaliser(config)));
             BorderPane equaliserPane = equaliserDemoFX.getPane();
             userRequestedStop = false;
@@ -290,7 +290,7 @@ public class FilesView {
 
         private void onFileImageLoaded(Runnable onLoaded) {
             if (fileImage == null)
-                fileImage = new Image(file.getURLPath(), true);
+                fileImage = new Image(file.getObjectURL(), true);
             FXProperties.runNowAndOnPropertiesChange(() -> {
                 if (fileImage.getProgress() >= 1) {
                     if (naturalFileImageWidth == 0)
