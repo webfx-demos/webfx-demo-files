@@ -28,6 +28,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.TouchPoint;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -102,42 +103,15 @@ public class FilesView {
         return fileTilesScrollPane;
     }
 
-    private long openTime;
-
-    private void openFileView(Node fileView, boolean closeOnMouseClick, Runnable onClose) {
-        BorderPane borderPane = new BorderPane(fileView);
-        setBackgroundFill(borderPane, ROOT_BACKGROUND_COLOR);
-        borderPane.setCursor(Cursor.HAND);
-        borderPane.getProperties().put("onClose", onClose);
-        if (closeOnMouseClick)
-            borderPane.setOnMouseClicked(e -> closeFileView());
-        getRootChildren().add(borderPane);
-        openTime = System.currentTimeMillis();
-    }
-
-    private void closeFileView() {
-        if (System.currentTimeMillis() - openTime < 300)
-            return;
-        ObservableList<Node> rootChildren = getRootChildren();
-        while (rootChildren.size() > 1) {
-            Node toRemove = rootChildren.get(rootChildren.size() - 1);
-            if (rootChildren.remove(toRemove)) {
-                Runnable onClose = (Runnable) toRemove.getProperties().get("onClose");
-                if (onClose != null)
-                    onClose.run();
-            }
-        }
-    }
-
     private ObservableList<Node> getRootChildren() {
         return ((Pane) mainContainer.getParent().getParent()).getChildren();
     }
 
-    class FileInfo {
+    private class FileInfo {
         private final File file;
         private final FileType fileType;
 
-        public FileInfo(File file) {
+        private FileInfo(File file) {
             this.file = file;
             fileType = FileType.fromMimeType(file.getMimeType());
         }
@@ -221,16 +195,16 @@ public class FilesView {
             closeButton.setTextFill(Color.WHITE);
             closeButton.setFont(Font.font(18));
             closeButton.setPadding(new Insets(10));
-            closeButton.setOnAction(e -> closeFileView());
+            closeButton.setOnAction(e -> closeFileFullView());
             HBox buttonBar = new HBox(closeButton);
             buttonBar.setAlignment(Pos.CENTER);
             buttonBar.setPadding(new Insets(0, 0, 20, 0));
             borderPane.setBottom(buttonBar);
-            openFileView(borderPane, false, null);
+            openFileFullView(borderPane, false, null);
         }
 
         private void openImageFile() {
-            openFileView(getFullSizeImageView(), true, null);
+            openFileFullView(getImageFullView(), true, null);
         }
 
         private boolean userRequestedStop;
@@ -240,7 +214,7 @@ public class FilesView {
             DemoFX equaliserDemoFX = new DemoFX(demoConfig, (IEffectFactory) config -> Collections.listOf(new Equaliser(config)));
             BorderPane equaliserPane = equaliserDemoFX.getPane();
             userRequestedStop = false;
-            openFileView(equaliserPane, true, () -> {
+            openFileFullView(equaliserPane, true, () -> {
                 userRequestedStop = true;
                 equaliserDemoFX.stopDemo();
             });
@@ -249,13 +223,51 @@ public class FilesView {
                     openNextSameTypeFile(true);
             });
             equaliserDemoFX.runDemo();
-            equaliserPane.setOnSwipeLeft( e -> openNextSameTypeFile(true)); // Right to Left
-            equaliserPane.setOnSwipeRight(e -> openNextSameTypeFile(false)); // Left to Right
-
         }
 
         private void openVideoFile() {
             openAudioFile();
+        }
+
+        private long openTime;
+
+        private void openFileFullView(Node fileFullView, boolean closeOnMouseClick, Runnable onClose) {
+            openTime = System.currentTimeMillis();
+            BorderPane borderPane = new BorderPane(fileFullView);
+            setBackgroundFill(borderPane, ROOT_BACKGROUND_COLOR);
+            borderPane.setCursor(Cursor.HAND);
+            borderPane.getProperties().put("onClose", onClose);
+            if (closeOnMouseClick)
+                borderPane.setOnMouseClicked(e -> closeFileFullView());
+            if (fileType == FileType.IMAGE || fileType == FileType.AUDIO) {
+                fileFullView.setOnSwipeLeft( e -> openNextSameTypeFile(true));  // Right to Left
+                fileFullView.setOnSwipeRight(e -> openNextSameTypeFile(false)); // Left to Right
+                mainContainer.requestFocus();
+                mainContainer.getScene().setOnKeyPressed(e -> {
+                    switch (e.getCode()) {
+                        case LEFT:
+                        case RIGHT:
+                            openNextSameTypeFile(e.getCode() == KeyCode.RIGHT);
+                            e.consume();
+                            break;
+                    }
+                });
+            }
+            getRootChildren().add(borderPane);
+        }
+
+        private void closeFileFullView() {
+            if (System.currentTimeMillis() - openTime < 300)
+                return;
+            ObservableList<Node> rootChildren = getRootChildren();
+            while (rootChildren.size() > 1) {
+                Node toRemove = rootChildren.get(rootChildren.size() - 1);
+                if (rootChildren.remove(toRemove)) {
+                    Runnable onClose = (Runnable) toRemove.getProperties().get("onClose");
+                    if (onClose != null)
+                        onClose.run();
+                }
+            }
         }
 
         private Image fileImage;
@@ -288,27 +300,25 @@ public class FilesView {
             return null;
         }
 
-        private BorderPane fullSizeImageView;
+        private BorderPane imageFullView;
 
-        private BorderPane getFullSizeImageView() {
-            if (fullSizeImageView == null) {
+        private BorderPane getImageFullView() {
+            if (imageFullView == null) {
                 ImageView imageView = new ImageView();
-                fullSizeImageView = new BorderPane(imageView);
+                imageFullView = new BorderPane(imageView);
                 imageView.setPreserveRatio(true);
-                fullSizeImageView.setMinWidth(0);
-                fullSizeImageView.setMinHeight(0);
+                imageFullView.setMinWidth(0);
+                imageFullView.setMinHeight(0);
                 onFileImageLoaded(() -> FXProperties.runOnPropertiesChange(() -> {
-                    Point2D dimension = bestImageFitDimension(fullSizeImageView.getWidth(), fullSizeImageView.getHeight());
+                    Point2D dimension = bestImageFitDimension(imageFullView.getWidth(), imageFullView.getHeight());
                     if (dimension != null) {
                         imageView.setFitWidth(dimension.getX());
                         imageView.setFitHeight(dimension.getY());
                     }
-                }, fileImage.widthProperty(), fileImage.heightProperty(), fullSizeImageView.widthProperty(), fullSizeImageView.heightProperty()));
+                }, fileImage.widthProperty(), fileImage.heightProperty(), imageFullView.widthProperty(), imageFullView.heightProperty()));
                 imageView.setImage(fileImage);
-                fullSizeImageView.setOnSwipeLeft( e -> openNextSameTypeFile(true)); // Right to Left
-                fullSizeImageView.setOnSwipeRight(e -> openNextSameTypeFile(false)); // Left to Right
             }
-            return fullSizeImageView;
+            return imageFullView;
         }
 
         private void openNextSameTypeFile(boolean forward) {
@@ -316,7 +326,7 @@ public class FilesView {
             while (true) {
                 if (forward) {
                     if (++fileIndex >= fileInfos.size()) {
-                        if (fileType == FileType.AUDIO) // No loop for audio files
+                        if (fileType == FileType.AUDIO) // No loop to top for audio files
                             return;
                         fileIndex = 0;
                     }
@@ -327,7 +337,7 @@ public class FilesView {
                 FileInfo fileInfo = fileInfos.get(fileIndex);
                 if (fileType == fileInfo.fileType) {
                     if (fileInfo != this) {
-                        closeFileView();
+                        closeFileFullView();
                         fileInfo.openFileAction();
                     }
                     break;

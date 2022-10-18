@@ -39,7 +39,7 @@ final class SegmentedButton<T> {
         this.buttonSegments = buttonSegments;
         frames = Arrays.stream(buttonSegments).map(this::createSegmentFrame).toArray(BorderPane[]::new);
         hBox = new HBox(frames);
-        hBox.setAlignment(Pos.CENTER);
+        hBox.setAlignment(Pos.BOTTOM_CENTER);
         setState(initialState);
     }
 
