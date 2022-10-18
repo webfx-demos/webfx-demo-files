@@ -233,16 +233,21 @@ public class FilesView {
             openFileView(getFullSizeImageView(), true, null);
         }
 
+        private boolean userRequestedStop;
         private void openAudioFile() {
             DemoConfig demoConfig = new DemoConfig(mainContainer.getWidth(), mainContainer.getHeight());
             demoConfig.setAudioFilename(file.getURLPath());
             DemoFX equaliserDemoFX = new DemoFX(demoConfig, (IEffectFactory) config -> Collections.listOf(new Equaliser(config)));
             BorderPane equaliserPane = equaliserDemoFX.getPane();
-            openFileView(equaliserPane, true, equaliserDemoFX::stopDemo);
-            /*equaliserDemoFX.setOnCompleted(() -> {
-                if (equaliserDemoFX.isRunning())
+            userRequestedStop = false;
+            openFileView(equaliserPane, true, () -> {
+                userRequestedStop = true;
+                equaliserDemoFX.stopDemo();
+            });
+            equaliserDemoFX.setOnCompleted(() -> {
+                if (!userRequestedStop)
                     openNextSameTypeFile(true);
-            });*/
+            });
             equaliserDemoFX.runDemo();
             equaliserPane.setOnSwipeLeft( e -> openNextSameTypeFile(true)); // Right to Left
             equaliserPane.setOnSwipeRight(e -> openNextSameTypeFile(false)); // Left to Right
@@ -310,9 +315,12 @@ public class FilesView {
             int fileIndex = fileInfos.indexOf(this);
             while (true) {
                 if (forward) {
-                    if (++fileIndex >= fileInfos.size())
+                    if (++fileIndex >= fileInfos.size()) {
+                        if (fileType == FileType.AUDIO) // No loop for audio files
+                            return;
                         fileIndex = 0;
-                } else {
+                    }
+               } else {
                     if (--fileIndex < 0)
                         fileIndex = fileInfos.size() - 1;
                 }
