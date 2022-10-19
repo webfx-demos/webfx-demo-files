@@ -91,8 +91,6 @@
     <source path="dev/webfx/extras/filepicker/spi/impl"/>
     <!--==========================< webfx-extras-filepicker-gwt >===========================-->
     <source path="dev/webfx/extras/filepicker/spi/impl/gwt"/>
-    <!--============================< webfx-extras-imagestore >=============================-->
-    <source path="dev/webfx/extras/imagestore"/>
     <!--=================================< webfx-kit-gwt >==================================-->
     <source path="dev/webfx/kit/launcher/spi/impl/gwt"/>
     <source path="dev/webfx/kit/mapper/spi/impl/gwt"/>
