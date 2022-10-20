@@ -4,6 +4,7 @@ import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.DemoFX;
 import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
 import com.chrisnewland.demofx.effect.spectral.Equaliser;
+import com.chrisnewland.demofx.effect.text.TextWaveSprite;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.kit.util.properties.ObservableLists;
 import dev.webfx.platform.file.File;
@@ -214,7 +215,13 @@ public class FilesView {
         private void openAudioFile() {
             DemoConfig demoConfig = new DemoConfig(mainContainer.getWidth(), mainContainer.getHeight());
             demoConfig.setAudioFilename(file.getObjectURL());
-            DemoFX equaliserDemoFX = new DemoFX(demoConfig, (IEffectFactory) config -> Collections.listOf(new Equaliser(config)));
+            String fileName = file.getName();
+            int p = fileName.lastIndexOf('.');
+            String displayName = p < 0 ? fileName : fileName.substring(0, p);
+            DemoFX equaliserDemoFX = new DemoFX(demoConfig, (IEffectFactory) config -> Collections.listOf(
+                    new Equaliser(config),
+                    new TextWaveSprite(config, new String[]{displayName}, config.getHeight() * 0.02, Math.min(config.getWidth(), config.getHeight()) / 2000, 2, 0, true)
+            ));
             BorderPane equaliserPane = equaliserDemoFX.getPane();
             userRequestedStop = false;
             openFileFullView(equaliserPane, true, () -> {
