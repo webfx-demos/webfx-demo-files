@@ -223,7 +223,8 @@ public class FilesView {
             });
             equaliserDemoFX.setOnCompleted(() -> {
                 if (!userRequestedStop)
-                    openNextSameTypeFile(true);
+                    if (!openNextSameTypeFile(true))
+                        closeFileFullView();
             });
             equaliserDemoFX.runDemo();
         }
@@ -336,22 +337,22 @@ public class FilesView {
             return imageFullView;
         }
 
-        private void openNextSameTypeFile(boolean forward) {
+        private boolean openNextSameTypeFile(boolean forward) {
             int fileIndex = fileInfos.indexOf(this);
             while (true) {
                 fileIndex += forward ? 1 : -1; // Going to possible next file
                 if (fileIndex < 0 || fileIndex >= fileInfos.size()) { // Loop management
                     if (fileType == FileType.AUDIO) // No loop for audio files
-                        return;
+                        return false;
                     fileIndex = fileIndex < 0 ? fileInfos.size() - 1 : 0;
                 }
                 FileInfo fileInfo = fileInfos.get(fileIndex);
                 if (fileType == fileInfo.fileType) {
-                    if (fileInfo != this) {
-                        closeFileFullView();
-                        fileInfo.openFileAction();
-                    }
-                    break;
+                    if (fileInfo == this)
+                        return false;
+                    closeFileFullView();
+                    fileInfo.openFileAction();
+                    return true;
                 }
             }
         }
