@@ -5,6 +5,7 @@ import com.chrisnewland.demofx.DemoFX;
 import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
 import com.chrisnewland.demofx.effect.spectral.Equaliser;
 import com.chrisnewland.demofx.effect.text.TextWaveSprite;
+import dev.webfx.extras.scalepane.ScalePane;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.kit.util.properties.ObservableLists;
 import dev.webfx.platform.file.File;
@@ -33,6 +34,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchPoint;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -237,7 +241,11 @@ public class FilesView {
         }
 
         private void openVideoFile() {
-            openAudioFile();
+            Media media = new Media(file.getObjectURL());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            MediaView mediaView = new MediaView(mediaPlayer);
+            openFileFullView(new ScalePane(mediaView), true, mediaPlayer::stop);
+            mediaPlayer.play();
         }
 
         private long openTime;

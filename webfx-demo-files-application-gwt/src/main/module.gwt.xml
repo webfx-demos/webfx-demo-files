@@ -91,6 +91,8 @@
     <source path="dev/webfx/extras/filepicker/spi/impl"/>
     <!--==========================< webfx-extras-filepicker-gwt >===========================-->
     <source path="dev/webfx/extras/filepicker/spi/impl/gwt"/>
+    <!--=============================< webfx-extras-scalepane >=============================-->
+    <source path="dev/webfx/extras/scalepane"/>
     <!--=================================< webfx-kit-gwt >==================================-->
     <source path="dev/webfx/kit/launcher/spi/impl/gwt"/>
     <source path="dev/webfx/kit/mapper/spi/impl/gwt"/>
@@ -115,6 +117,8 @@
     <source path="dev/webfx/kit/registry/javafxgraphics"/>
     <!--========================< webfx-kit-javafxmedia-peers-gwt >=========================-->
     <source path="dev/webfx/kit/mapper/peers/javafxmedia/spi/gwt"/>
+    <!--=======================< webfx-kit-javafxmedia-registry-gwt >=======================-->
+    <source path="dev/webfx/kit/registry/javafxmedia"/>
     <!--===============================< webfx-kit-launcher >===============================-->
     <source path="dev/webfx/kit/launcher"/>
     <source path="dev/webfx/kit/launcher/spi"/>

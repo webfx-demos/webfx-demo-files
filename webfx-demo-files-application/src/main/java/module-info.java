@@ -9,6 +9,7 @@ module webfx.demo.files.application {
     requires javafx.graphics;
     requires javafx.media;
     requires webfx.extras.filepicker;
+    requires webfx.extras.scalepane;
     requires webfx.kit.util;
     requires webfx.lib.demofx;
     requires webfx.platform.async;
