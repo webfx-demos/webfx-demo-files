@@ -12,11 +12,15 @@ public interface EmbedResourcesBundle extends ClientBundle {
     @Source("com/chrisnewland/demofx/text/greetings.txt")
     TextResource r1();
 
+    @Source("dev/webfx/platform/meta/exe/exe.properties")
+    TextResource r2();
+
 
 
     final class ProvidedGwtResourceBundle extends GwtResourceBundleBase {
         public ProvidedGwtResourceBundle() {
             registerResource("com/chrisnewland/demofx/text/greetings.txt", R.r1());
+            registerResource("dev/webfx/platform/meta/exe/exe.properties", R.r2());
 
         }
     }
