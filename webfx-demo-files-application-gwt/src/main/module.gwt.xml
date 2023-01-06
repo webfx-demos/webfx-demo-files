@@ -123,6 +123,8 @@
     <source path="dev/webfx/kit/launcher"/>
     <source path="dev/webfx/kit/launcher/spi"/>
     <source path="dev/webfx/kit/launcher/spi/impl/base"/>
+    <!--======================< webfx-kit-platform-audio-openjfx-gwt >======================-->
+    <source path="dev/webfx/kit/platform/audio/spi/impl/openjfxgwt"/>
     <!--=================================< webfx-kit-util >=================================-->
     <source path="dev/webfx/kit/util/properties"/>
     <source path="dev/webfx/kit/util/properties/conversion"/>
@@ -148,6 +150,9 @@
     <!--==============================< webfx-platform-async >==============================-->
     <source path="dev/webfx/platform/async"/>
     <source path="dev/webfx/platform/async/impl"/>
+    <!--==============================< webfx-platform-audio >==============================-->
+    <source path="dev/webfx/platform/audio"/>
+    <source path="dev/webfx/platform/audio/spi"/>
     <!--==============================< webfx-platform-boot >===============================-->
     <source path="dev/webfx/platform/boot"/>
     <source path="dev/webfx/platform/boot/spi"/>

@@ -12,8 +12,7 @@
     </modules>
 
     <required-libraries>
-        <webfx-library artifact="dev.webfx:webfx-extras:0.1.0-SNAPSHOT"/> <!-- for FilePicker -->
-        <webfx-library artifact="dev.webfx:webfx-extras-private:0.1.0-SNAPSHOT"/> <!-- for ScalePane -->
+        <webfx-library artifact="dev.webfx:webfx-extras:0.1.0-SNAPSHOT"/> <!-- for FilePicker & ScalePane -->
         <webfx-library artifact="dev.webfx:webfx-lib-demofx:0.1.0-SNAPSHOT"/> <!-- for Equaliser -->
     </required-libraries>
 

@@ -42,6 +42,12 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
+            <artifactId>webfx-platform-audio-gluon</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
             <artifactId>webfx-platform-boot-java</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
@@ -60,7 +66,7 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-resource-java</artifactId>
+            <artifactId>webfx-platform-resource-gluon</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -85,11 +91,19 @@
                 <artifactId>gluonfx-maven-plugin</artifactId>
                 <configuration>
                     <attachList>
+                        <list>audio</list>
                         <list>lifecycle</list>
+                        <list>storage</list>
                     </attachList>
                     <resourcesList>
-                        <list>dev/webfx/platform/meta/exe/[^/]+</list>
+                        <list>com/chrisnewland/demofx/images/[^/]+$</list>
+                        <list>com/chrisnewland/demofx/images/letters/[^/]+$</list>
+                        <list>com/chrisnewland/demofx/text/[^/]+$</list>
+                        <list>dev/webfx/demo/files/[^/]+$</list>
+                        <list>dev/webfx/platform/meta/exe/[^/]+$</list>
+                        <list>images/checkbox/[^/]+$</list>
                     </resourcesList>
+
                 </configuration>
             </plugin>
         </plugins>

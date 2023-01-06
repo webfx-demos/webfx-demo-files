@@ -7,6 +7,7 @@ module webfx.demo.files.application.openjfx {
     requires webfx.demo.files.application;
     requires webfx.extras.filepicker.openjfx;
     requires webfx.kit.openjfx;
+    requires webfx.kit.platform.audio.openjfx.gwt;
     requires webfx.platform.boot.java;
     requires webfx.platform.console.java;
     requires webfx.platform.file.java;
