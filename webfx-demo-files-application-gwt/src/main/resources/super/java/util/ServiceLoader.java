@@ -18,6 +18,7 @@ public class ServiceLoader<S> implements Iterable<S> {
             case "dev.webfx.platform.boot.spi.ApplicationJob": return new ServiceLoader<S>();
             case "dev.webfx.platform.boot.spi.ApplicationModuleBooter": return new ServiceLoader<S>(dev.webfx.kit.launcher.WebFxKitLauncherModuleBooter::new, dev.webfx.kit.mapper.peers.javafxmedia.spi.gwt.GwtMediaModuleBooter::new, dev.webfx.platform.boot.spi.impl.ApplicationJobsBooter::new, dev.webfx.platform.resource.spi.impl.gwt.GwtResourceModuleBooter::new);
             case "dev.webfx.platform.console.spi.ConsoleProvider": return new ServiceLoader<S>(dev.webfx.platform.console.spi.impl.gwt.GwtConsoleProvider::new);
+            case "dev.webfx.platform.file.spi.BlobProvider": return new ServiceLoader<S>(dev.webfx.platform.file.spi.impl.gwt.GwtBlobProvider::new);
             case "dev.webfx.platform.file.spi.FileProvider": return new ServiceLoader<S>(dev.webfx.platform.file.spi.impl.gwt.GwtFileProvider::new);
             case "dev.webfx.platform.resource.spi.ResourceProvider": return new ServiceLoader<S>(dev.webfx.platform.resource.spi.impl.gwt.GwtResourceProvider::new);
             case "dev.webfx.platform.resource.spi.impl.gwt.GwtResourceBundle": return new ServiceLoader<S>(webfx.demo.files.application.gwt.embed.EmbedResourcesBundle.ProvidedGwtResourceBundle::new);

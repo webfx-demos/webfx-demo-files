@@ -11,11 +11,12 @@ module webfx.demo.files.application.gluon {
     requires webfx.platform.boot.java;
     requires webfx.platform.console.java;
     requires webfx.platform.file.java;
+    requires webfx.platform.os.gluon;
     requires webfx.platform.resource.gluon;
     requires webfx.platform.scheduler.java;
     requires webfx.platform.shutdown.gluon;
 
-    // Meta Resource package
+    // Resources packages
     opens dev.webfx.platform.meta.exe;
 
 }
