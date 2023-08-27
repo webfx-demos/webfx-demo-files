@@ -8,6 +8,7 @@ module webfx.demo.files.application.gluon {
     requires webfx.extras.filepicker.openjfx;
     requires webfx.kit.openjfx;
     requires webfx.platform.audio.gluon;
+    requires webfx.platform.blob.java;
     requires webfx.platform.boot.java;
     requires webfx.platform.console.java;
     requires webfx.platform.file.java;
@@ -15,8 +16,5 @@ module webfx.demo.files.application.gluon {
     requires webfx.platform.resource.gluon;
     requires webfx.platform.scheduler.java;
     requires webfx.platform.shutdown.gluon;
-
-    // Resources packages
-    opens dev.webfx.platform.meta.exe;
 
 }

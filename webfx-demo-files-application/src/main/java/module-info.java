@@ -12,6 +12,7 @@ module webfx.demo.files.application {
     requires webfx.extras.scalepane;
     requires webfx.kit.util;
     requires webfx.lib.demofx;
+    requires webfx.platform.blob;
     requires webfx.platform.file;
     requires webfx.platform.uischeduler;
     requires webfx.platform.util;

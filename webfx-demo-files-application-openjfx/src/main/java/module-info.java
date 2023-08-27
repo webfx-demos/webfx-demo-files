@@ -8,14 +8,12 @@ module webfx.demo.files.application.openjfx {
     requires webfx.extras.filepicker.openjfx;
     requires webfx.kit.openjfx;
     requires webfx.kit.platform.audio.openjfx.gwt;
+    requires webfx.platform.blob.java;
     requires webfx.platform.boot.java;
     requires webfx.platform.console.java;
     requires webfx.platform.file.java;
     requires webfx.platform.resource.java;
     requires webfx.platform.scheduler.java;
     requires webfx.platform.shutdown.java;
-
-    // Resources packages
-    opens dev.webfx.platform.meta.exe;
 
 }
