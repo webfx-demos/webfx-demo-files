@@ -4,23 +4,26 @@ package dev.webfx.demo.files;
  * @author Bruno Salmon
  */
 enum FileType {
-    TEXT ("text/"),
-    IMAGE ("image/"),
-    AUDIO ("audio/"),
-    VIDEO ("video/"),
-    OTHER (null);
+    TEXT ("text/*", "application/json", "application/xml", "application/rtf", "application/x-sh", "application/xhtml+xml", "application/vnd.mozilla.xul+xml"),
+    IMAGE ("image/*"),
+    AUDIO ("audio/*"),
+    VIDEO ("video/*"),
+    OTHER ();
 
-    private final String mimePrefix;
+    private final String[] mimePatterns;
 
-    FileType(String mimePrefix) {
-        this.mimePrefix = mimePrefix;
+    FileType(String... mimePatterns) {
+        this.mimePatterns = mimePatterns;
     }
 
     static FileType fromMimeType(String mimeType) {
         if (mimeType != null)
-            for (FileType fileType : FileType.values())
-                if (fileType != OTHER && mimeType.startsWith(fileType.mimePrefix))
-                    return fileType;
+            for (FileType fileType : FileType.values()) {
+                for (String mimePattern : fileType.mimePatterns) {
+                    if (mimeType.equals(mimePattern) || mimePattern.endsWith("*") && mimeType.startsWith(mimePattern.replace("*", "")))
+                        return fileType;
+                }
+            }
         return OTHER;
     }
 }
