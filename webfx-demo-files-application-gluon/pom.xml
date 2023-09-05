@@ -114,6 +114,7 @@
                         <list>com/chrisnewland/demofx/images/letters/[^/]+$</list>
                         <list>com/chrisnewland/demofx/text/[^/]+$</list>
                         <list>dev/webfx/demo/files/[^/]+$</list>
+                        <list>dev/webfx/platform/conf/[^/]+$</list>
                         <list>dev/webfx/platform/meta/exe/[^/]+$</list>
                         <list>javafx/scene/control/skin/checkbox/[^/]+$</list>
                     </resourcesList>
