@@ -22,7 +22,7 @@ final class SegmentedButton<T> {
     private final ButtonSegment<T>[] buttonSegments;
     private final BorderPane[] frames;
     private final HBox hBox;
-    private final ObjectProperty<T> stateProperty = new SimpleObjectProperty<>() {
+    private final ObjectProperty<T> stateProperty = new SimpleObjectProperty<T>() {
         @Override
         protected void invalidated() {
             updateFrames();

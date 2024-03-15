@@ -31,13 +31,13 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-javafxmedia-gluon</artifactId>
+            <artifactId>webfx-kit-javafxgraphics-openjfx</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-openjfx</artifactId>
+            <artifactId>webfx-kit-javafxmedia-gluon</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -114,7 +114,6 @@
                         <list>com/chrisnewland/demofx/images/letters/[^/]+$</list>
                         <list>com/chrisnewland/demofx/text/[^/]+$</list>
                         <list>dev/webfx/demo/files/[^/]+$</list>
-                        <list>dev/webfx/platform/conf/[^/]+$</list>
                         <list>dev/webfx/platform/meta/exe/[^/]+$</list>
                         <list>javafx/scene/control/skin/checkbox/[^/]+$</list>
                     </resourcesList>

@@ -9,13 +9,14 @@ module webfx.demo.files.application {
     requires javafx.graphics;
     requires javafx.media;
     requires webfx.extras.filepicker;
-    requires webfx.extras.scalepane;
+    requires webfx.extras.panes;
     requires webfx.kit.util;
     requires webfx.lib.demofx;
     requires webfx.platform.blob;
     requires webfx.platform.file;
     requires webfx.platform.uischeduler;
     requires webfx.platform.util;
+    requires webfx.platform.util.time;
 
     // Exported packages
     exports dev.webfx.demo.files;

@@ -6,7 +6,7 @@ module webfx.demo.files.application.gluon {
     requires javafx.media;
     requires webfx.demo.files.application;
     requires webfx.extras.filepicker.openjfx;
-    requires webfx.kit.openjfx;
+    requires webfx.kit.javafxgraphics.openjfx;
     requires webfx.platform.audio.gluon;
     requires webfx.platform.blob.java;
     requires webfx.platform.boot.java;

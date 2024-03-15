@@ -5,14 +5,14 @@ import com.chrisnewland.demofx.DemoFX;
 import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
 import com.chrisnewland.demofx.effect.spectral.Equaliser;
 import com.chrisnewland.demofx.effect.text.TextWaveSprite;
-import dev.webfx.extras.scalepane.ScalePane;
+import dev.webfx.extras.panes.ScalePane;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.kit.util.properties.ObservableLists;
 import dev.webfx.platform.blob.Blob;
 import dev.webfx.platform.file.File;
 import dev.webfx.platform.file.FileReader;
 import dev.webfx.platform.blob.spi.BlobProvider;
-import dev.webfx.platform.util.Dates;
+import dev.webfx.platform.util.time.Times;
 import dev.webfx.platform.util.collection.Collections;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -147,7 +147,7 @@ public class FilesView {
                         createWhiteText(file.getName(), 28),
                         new HBox(10,
                                 sizeTextBorderPane = new BorderPane(createGrayText(readableFileSize(file.length()), 20)),
-                                createGrayText(Dates.format(LocalDateTime.ofEpochSecond(file.lastModified() / 1000, 0, LOCAL_ZONE_OFFSET), "dd/MM/yyyy HH:mm:ss"), 20)
+                                createGrayText(Times.format(LocalDateTime.ofEpochSecond(file.lastModified() / 1000, 0, LOCAL_ZONE_OFFSET), "dd/MM/yyyy HH:mm:ss"), 20)
                         )
                 ));
                 sizeTextBorderPane.setMinWidth(100);
