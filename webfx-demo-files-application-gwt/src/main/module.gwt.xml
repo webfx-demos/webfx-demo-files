@@ -95,7 +95,7 @@
     <source path="dev/webfx/extras/filepicker/spi"/>
     <source path="dev/webfx/extras/filepicker/spi/impl"/>
     <!--========================< webfx-extras-filepicker-gwt-j2cl >========================-->
-    <source path="dev/webfx/extras/filepicker/spi/impl/gwt"/>
+    <source path="dev/webfx/extras/filepicker/spi/impl/gwtj2cl"/>
     <!--===============================< webfx-extras-panes >===============================-->
     <source path="dev/webfx/extras/panes"/>
     <!--==========================< webfx-extras-util-animation >===========================-->
